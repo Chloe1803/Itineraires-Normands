@@ -5,7 +5,11 @@
 Ce projet est un prototype d'application web développé pour être consulté sur mobile. Il propose des itinéraires de balade culturelle à proximité d'arrêts de bus, dans le but de mettre en valeur le territoire normand. L'application permet aux utilisateurs de découvrir des parcours culturels enrichis par des points d'intérêt (monuments, musées, sites historiques, etc.).
 
 Le prototype inclut la page d'accueil, ainsi qu'une page détaillant l'itinéraire de la balade avec une carte interactive et les points d'intérêt à visiter. Les données sont actuellement stockées en local dans un fichier de données (simulant des réponses API), mais l'objectif futur est de connecter l'application à une véritable API pour une mise à jour dynamique des données.
+
+
 ![alt text](image.png)
+
+
 
 ## Fonctionnalités
 
