@@ -1,0 +1,142 @@
+<div
+  class="bg-lightYellow m-0 p-2 h-screen flex flex-col justify-center items-center overflow-hidden"
+>
+  <h1
+    class="text-center pacifico-regular text-3xl py-3 text-darkBlue bg-lightYellow"
+  >
+    Itinéraires Normands
+  </h1>
+
+  <!-- Conteneur commun -->
+  <div class="w-full max-w-md flex flex-col items-center">
+    <img
+      src="assets/img/illustration.jpg"
+      alt=""
+      class="w-full object-cover max-h-[50vh] rounded-md"
+    />
+    <button
+      *ngIf="selectedLigne == null"
+      (click)="openLineModal()"
+      class="bg-white text-lightBlue border-lightBlue border-2 px-4 py-2 mt-4 w-full rounded-lg font-semibold hover:bg-lightBlue focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2 transition duration-300"
+    >
+      Sélectionner une ligne
+    </button>
+    <button
+      *ngIf="selectedLigne"
+      (click)="openLineModal()"
+      class="bg-lightBlue text-white border-darkBlue border-2 px-4 py-2 mt-4 w-full rounded-lg font-semibold hover:bg-lightBlue focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2 transition duration-300"
+    >
+      {{ selectedLigne?.Short_Name }} {{ selectedLigne?.Long_Name }}
+    </button>
+    <button
+      *ngIf="selectedStop == null"
+      (click)="openStopModal()"
+      class="bg-white text-lightBlue border-lightBlue border-2 px-4 py-2 mt-4 w-full rounded-lg font-semibold hover:bg-lightBlue focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2 transition duration-300"
+    >
+      Sélectionner un arrêt
+    </button>
+    <button
+      *ngIf="selectedStop"
+      (click)="openStopModal()"
+      class="bg-lightBlue text-white border-darkBlue border-2 px-4 py-2 mt-4 w-full rounded-lg font-semibold hover:bg-lightBlue focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2 transition duration-300"
+    >
+      {{ selectedStop?.Name }}
+    </button>
+    <button
+      (click)="nagigateToStops()"
+      class="bg-darkBlue text-white px-4 py-2 mt-4 w-full rounded-lg font-semibold hover:bg-lightBlue focus:outline-none focus:ring-2 focus:ring-darkBlue focus:ring-offset-2 transition duration-300"
+    >
+      Voir les itinéraires
+    </button>
+  </div>
+</div>
+
+<!-- Modal pour la sélection d'une ligne -->
+<div
+  *ngIf="isLineModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white rounded-lg shadow-lg w-11/12 max-w-md h-[90vh] flex flex-col"
+  >
+    <!-- Titre modale -->
+    <h2 class="text-lg font-bold text-darkBlue p-4 border-b mb-4">
+      Sélectionner une ligne
+    </h2>
+
+    <!-- Liste avec défilement -->
+    <div class="overflow-y-auto flex-grow px-4">
+      <button
+        *ngFor="let line of lignes"
+        (click)="selectLine(line)"
+        class="block w-full text-left bg-lightBlue text-white px-4 py-2 rounded-lg hover:bg-darkBlue transition duration-300 mb-2"
+      >
+        {{ line.Short_Name }} {{ line.Long_Name }}
+      </button>
+    </div>
+
+    <!-- Boutons de la modale -->
+    <div class="p-4 border-t flex justify-end gap-2">
+      <button
+        (click)="closeLineModal()"
+        class="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300"
+      >
+        Annuler
+      </button>
+      <button
+        (click)="confirmSelection()"
+        class="bg-darkBlue text-white px-4 py-2 rounded-lg hover:bg-lightBlue transition duration-300"
+      >
+        Confirmer
+      </button>
+    </div>
+  </div>
+</div>
+
+<!--- Modal pour la sélection d'un arrêt --->
+
+<div
+  *ngIf="isStopModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white rounded-lg shadow-lg w-11/12 max-w-md h-[90vh] flex flex-col"
+  >
+    <!-- Titre modale -->
+    <h2 class="text-lg font-bold text-darkBlue p-4 border-b mb-4">
+      Sélectionner un arrêt
+    </h2>
+
+    <!-- Liste avec défilement -->
+    <div class="overflow-y-auto flex-grow px-4">
+      <button
+        *ngFor="let stop of stops"
+        (click)="selectStop(stop)"
+        [disabled]="!stop.hasPOI"
+        [ngClass]="{
+          'bg-lightBlue text-white hover:bg-darkBlue': stop.hasPOI,
+          'bg-gray-300 text-gray-600 cursor-not-allowed': !stop.hasPOI
+        }"
+        class="block w-full text-left px-4 py-2 rounded-lg transition duration-300 mb-2"
+      >
+        {{ stop.Name }}
+      </button>
+    </div>
+
+    <!-- Boutons de la modale -->
+    <div class="p-4 border-t flex justify-end gap-2">
+      <button
+        (click)="closeStopModal()"
+        class="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300"
+      >
+        Annuler
+      </button>
+      <button
+        (click)="closeStopModal()"
+        class="bg-darkBlue text-white px-4 py-2 rounded-lg hover:bg-lightBlue transition duration-300"
+      >
+        Confirmer
+      </button>
+    </div>
+  </div>
+</div>
